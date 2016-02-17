@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  apdemo
+
+  Created by wish8 on 2/17/16.
+  Copyright © 2016 oSolve. All rights reserved.
+*/
+
+"error" = "錯誤";
+"error.wrong_email" = "error.wrong_email";
