@@ -13,6 +13,20 @@ NSString *const UITextViewCellReuseIdentifier = @"UITextViewCell";
 @end
 
 @implementation UITextViewCell
++ (NSDictionary *)attrs {
+    return @{
+      NSFontAttributeName : [UIFont systemFontOfSize:15]
+    };
+}
+
++ (CGFloat)height {
+    return 8
+      + 30
+      + 8
+      + 100
+      + 8;
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle) style reuseIdentifier:(nullable NSString *) reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -23,6 +37,7 @@ NSString *const UITextViewCellReuseIdentifier = @"UITextViewCell";
             make.top.equalTo(self.contentView).offset(8);
             make.left.equalTo(self.contentView).offset(8);
             make.right.equalTo(self.contentView).offset(-8);
+            make.height.equalTo(@(30));
         }];
         self.label = label;
         UITextView *textView = [[UITextView alloc] init];

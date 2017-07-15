@@ -10,4 +10,6 @@ extern NSString *const UILabelCellReuseIdentifier;
 
 @interface UILabelCell : UITableViewCell
 @property (nonatomic, strong) UILabel *label;
+
++ (CGFloat)heightForRow:(NSString *) content width:(CGFloat) width;
 @end

@@ -9,4 +9,5 @@
 extern NSString *const UITextViewCellReuseIdentifier;
 
 @interface UITextViewCell : UITableViewCell
++ (CGFloat)height;
 @end

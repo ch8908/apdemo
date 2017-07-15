@@ -28,8 +28,6 @@ typedef NS_ENUM(NSInteger, DummySection) {
 - (void)loadView {
     [super loadView];
     UITableView *tableView = [[UITableView alloc] init];
-    tableView.rowHeight = UITableViewAutomaticDimension;
-    tableView.estimatedRowHeight = 50;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.dataSource = self;
     tableView.delegate = self;
@@ -50,13 +48,14 @@ typedef NS_ENUM(NSInteger, DummySection) {
     [[BFTask taskWithDelay:5000] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id(BFTask<id> *t) {
         weakSelf.data1 = [weakSelf getData];
         [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:DummySectionFirst] withRowAnimation:UITableViewRowAnimationNone];
+//        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:DummySectionSecond] withRowAnimation:UITableViewRowAnimationNone];
         return nil;
     }];
 }
 
 - (NSArray<NSString *> *)getDefaultData {
     NSMutableArray *array = [NSMutableArray array];
-    for (int i = 0; i < 30; ++i) {
+    for (int i = 0; i < 20; ++i) {
         [array addObject:[NSString stringWithFormat:@"a%@", @(i)]];
     }
     return array;
@@ -64,7 +63,7 @@ typedef NS_ENUM(NSInteger, DummySection) {
 
 - (NSArray<NSString *> *)getData {
     NSMutableArray *array = [NSMutableArray array];
-    for (int i = 0; i < 30; ++i) {
+    for (int i = 0; i < 20; ++i) {
         int i1 = i % 5;
         NSMutableString *string = [NSMutableString string];
         [string appendString:@"a\n"];
@@ -74,6 +73,20 @@ typedef NS_ENUM(NSInteger, DummySection) {
         [array addObject:string];
     }
     return array;
+}
+
+- (CGFloat)tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *) indexPath {
+    switch ((DummySection) indexPath.section) {
+        case DummySectionFirst:
+            return [UILabelCell heightForRow:self.data1[indexPath.row] width:CGRectGetWidth(self.tableView.frame)];
+        case DummySectionSecond:
+            return [UITextViewCell height];
+        case DummySectionThird:
+            return [UILabelCell heightForRow:self.data3[indexPath.row] width:CGRectGetWidth(self.tableView.frame)];
+        case DummySectionTotals:
+        default:
+            return 0;
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *) tableView {
