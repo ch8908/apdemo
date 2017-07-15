@@ -19,7 +19,8 @@ typedef NS_ENUM(NSInteger, DummySection) {
 
 @interface EditingTableViewController()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray<NSString *> *data;
+@property (nonatomic, strong) NSArray<NSString *> *data1;
+@property (nonatomic, strong) NSArray<NSString *> *data3;
 @end
 
 @implementation EditingTableViewController
@@ -43,11 +44,12 @@ typedef NS_ENUM(NSInteger, DummySection) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.data = [self getDefaultData];
+    self.data1 = [self getDefaultData];
+    self.data3 = [self getDefaultData];
     __weak typeof(self) weakSelf = self;
     [[BFTask taskWithDelay:5000] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id(BFTask<id> *t) {
-        weakSelf.data = [weakSelf getData];
-        [weakSelf.tableView reloadData];
+        weakSelf.data1 = [weakSelf getData];
+        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:DummySectionFirst] withRowAnimation:UITableViewRowAnimationNone];
         return nil;
     }];
 }
@@ -81,11 +83,11 @@ typedef NS_ENUM(NSInteger, DummySection) {
 - (NSInteger)tableView:(UITableView *) tableView numberOfRowsInSection:(NSInteger) section {
     switch ((DummySection) section) {
         case DummySectionFirst:
-            return self.data.count;
+            return self.data1.count;
         case DummySectionSecond:
             return 1;
         case DummySectionThird:
-            return self.data.count;
+            return self.data3.count;
         case DummySectionTotals:
         default:
             return 0;
@@ -96,7 +98,7 @@ typedef NS_ENUM(NSInteger, DummySection) {
     switch ((DummySection) indexPath.section) {
         case DummySectionFirst: {
             UILabelCell *cell = [tableView dequeueReusableCellWithIdentifier:UILabelCellReuseIdentifier];
-            cell.label.text = self.data[indexPath.row];
+            cell.label.text = self.data1[indexPath.row];
             return cell;
         }
         case DummySectionSecond: {
@@ -105,13 +107,18 @@ typedef NS_ENUM(NSInteger, DummySection) {
         }
         case DummySectionThird: {
             UILabelCell *cell = [tableView dequeueReusableCellWithIdentifier:UILabelCellReuseIdentifier];
-            cell.label.text = self.data[indexPath.row];
+            cell.label.text = self.data3[indexPath.row];
             return cell;
         }
         case DummySectionTotals:
             break;
     }
     return nil;
+}
+
+- (void)tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *) indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.view endEditing:YES];
 }
 
 @end
