@@ -8,3 +8,4 @@
 
 "error" = "錯誤";
 "error.wrong_email" = "error.wrong_email";
+"error.wrong_email_password" = "error.wrong_email_password";

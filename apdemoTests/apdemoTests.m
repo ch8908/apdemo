@@ -7,6 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "Job.h"
+#import "JobFactory.h"
 
 @interface apdemoTests : XCTestCase
 
@@ -34,6 +36,12 @@
     [self measureBlock:^{
         // Put the code you want to measure the time of here.
     }];
+}
+
+- (void)testGetTitle {
+    Job *job = [[Job alloc] initWithTitle:@"Title"];
+
+    XCTAssertEqualObjects(@"Title", [JobFactory fromJob:job]);
 }
 
 @end
